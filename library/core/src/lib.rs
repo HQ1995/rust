@@ -435,3 +435,10 @@ pub mod simd {
 }
 
 include!("primitive_docs.rs");
+
+/// A SPECIAL INDICATOR FUNCTION
+///
+#[stable(feature = "my_special_trap", since = "1.27.0")]
+pub fn special_trap() {
+    unreachable!()
+}

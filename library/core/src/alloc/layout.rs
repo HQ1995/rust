@@ -47,6 +47,9 @@ pub struct Layout {
     // (However, we do not analogously require `align >= sizeof(void*)`,
     //  even though that is *also* a requirement of `posix_memalign`.)
     align: Alignment,
+
+    // type id
+    tyid: u128,
 }
 
 impl Layout {
@@ -101,7 +104,7 @@ impl Layout {
         }
 
         // SAFETY: Layout::size invariants checked above.
-        Ok(Layout { size, align })
+        Ok(Layout { size, align, tyid: 0u128 })
     }
 
     /// Creates a layout, bypassing all checks.
@@ -117,7 +120,7 @@ impl Layout {
     #[rustc_allow_const_fn_unstable(ptr_alignment_type)]
     pub const unsafe fn from_size_align_unchecked(size: usize, align: usize) -> Self {
         // SAFETY: the caller is required to uphold the preconditions.
-        unsafe { Layout { size, align: Alignment::new_unchecked(align) } }
+        unsafe { Layout { size, align: Alignment::new_unchecked(align), tyid: 0u128 } }
     }
 
     /// The minimum size in bytes for a memory block of this layout.
